@@ -5,4 +5,4 @@ There are three rounds in the quiz. Each round can be toggled either through the
 
 Follow the format of the quiz question images and answers just like in the given images 'qns'&'ans'. 
 
-If you know the coding stuff then youre free to change the stud :))
+If you know the coding stuff then youre free to change the stuff :))
