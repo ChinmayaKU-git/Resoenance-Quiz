@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Nabla:EDPT,EHLT@30..200,24&display=swap");
+
+body {
+    background-color: #000;
+    color: white;
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logos {
+    margin-bottom: 20px;
+}
+
+.main-logo {
+    width: 200px; /* Adjust size as needed */
+    margin-bottom: 20px;
+}
+
+.sub-logo {
+    width: 150px; /* Adjust size as needed */
+    margin-bottom: 40px;
+}
+
+.title-text {
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 7vw;
+    font-family: Nabla;
+}
+
+@font-palette-values --Nabla {
+    font-family: Nabla;
+    base-palette: 2;
+}
+
+.animated-text span {
+    animation: depth 1s ease-in-out alternate infinite;
+    position: relative;
+    display: inline-block;
+    font-variation-settings: "EDPT" 30;
+    font-palette: --Nabla;
+    transition: transform 0.18s cubic-bezier(.4,2,.6,1), filter 0.18s cubic-bezier(.4,2,.6,1);
+    will-change: transform;
+}
+
+.animated-text span:nth-child(1) { animation-delay: 0.1s; }
+.animated-text span:nth-child(2) { animation-delay: 0.2s; }
+.animated-text span:nth-child(3) { animation-delay: 0.3s; }
+.animated-text span:nth-child(4) { animation-delay: 0.4s; }
+.animated-text span:nth-child(5) { animation-delay: 0.5s; }
+.animated-text span:nth-child(6) { animation-delay: 0.6s; }
+.animated-text span:nth-child(7) { animation-delay: 0.7s; }
+.animated-text span:nth-child(8) { animation-delay: 0.8s; }
+.animated-text span:nth-child(9) { animation-delay: 0.9s; }
+
+@keyframes depth {
+    0% {
+        transform: translatex(0) translatey(0);
+    }
+    100% {
+        font-variation-settings: "EDPT" 200;
+        transform: translatex(0.15em) translatey(0.1em);
+    }
+}
+
+.resoenance-text {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.resoenance-text span {
+  display: inline-block;
+  transition: transform 0.18s cubic-bezier(.4,2,.6,1), filter 0.18s cubic-bezier(.4,2,.6,1);
+  will-change: transform;
+}
+
+.brainwave-text {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+.enter-quiz-container {
+    margin-top: 20px;
+}
+
+.enter-quiz-button {
+    position: relative;
+    padding: 20px 40px;
+    font-size: 1.6em;
+    background: linear-gradient(45deg, #111 0%, #333 100%);
+    color: #FFD700;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #FFD700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    box-shadow: 
+        0 0 15px rgba(255, 215, 0, 0.3),
+        inset 0 0 15px rgba(255, 215, 0, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.5);
+    transform: perspective(1000px) translateZ(0);
+    transform-style: preserve-3d;
+}
+
+.enter-quiz-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 215, 0, 0.2),
+        transparent
+    );
+    transform-origin: center;
+    transform: rotate(-45deg) translateY(-100%);
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+.enter-quiz-button:hover {
+    transform: perspective(1000px) translateZ(30px) rotateX(-5deg);
+    color: #FFF;
+    background: linear-gradient(45deg, #222 0%, #444 100%);
+    box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.5),
+        inset 0 0 20px rgba(255, 215, 0, 0.3),
+        0 10px 25px rgba(0, 0, 0, 0.7);
+    border-color: #FFF;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+.enter-quiz-button:hover::before {
+    transform: rotate(-45deg) translateY(100%);
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+}
+
+.enter-quiz-button:active {
+    transform: perspective(1000px) translateZ(10px) rotateX(-2deg);
+    box-shadow: 
+        0 0 20px rgba(255, 215, 0, 0.4),
+        inset 0 0 10px rgba(255, 215, 0, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+.nabla-blue {
+    font-family: 'Nabla', cursive;
+    color: #2196f3;
+    animation: depth 1s ease-in-out alternate infinite;
+    font-variation-settings: "EDPT" 30;
+    font-palette: --Nabla;
+    display: inline-block;
+    position: relative;
+}
+
+/* Flying Golden Words Canvas Styles (for reference in JS) */
+.flying-word-style {
+  font-family: 'Nabla', 'Arial Black', Arial, sans-serif;
+  font-size: 2.2em;
+  color: #FFD700;
+  text-shadow: 0 2px 6px #bfa100, 0 0 2px #fff200;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.glass-blur-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(30, 30, 30, 0.35);
+  border-radius: 24px;
+  border: 3px solid #FFD700;
+  box-shadow: 0 4px 32px 0 rgba(0,0,0,0.18), 0 0 0 2px rgba(255,215,0,0.12);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  padding: 0.5em 2em;
+  margin: 0.5em auto 1.5em auto;
+  z-index: 2;
+  min-width: 320px;
+  max-width: 90vw;
+}
+
+#resoenance-glass {
+  margin-bottom: 1.5em;
+}
+
+#brainwave-glass {
+  margin-top: 1.5em;
+  padding-top: 0.05em;
+  padding-bottom: 0.05em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  min-width: 0;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECE Quiz</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    /* Scrollable containers for leaderboard, teams, and scores (approx 10 items) */
+    #leaderboard { max-height: 900px; min-height: 0; overflow-y: auto; padding-right: 6px; }
+    #registered-teams-list { max-height: 380px; min-height: 0; overflow-y: auto; padding-right: 6px; }
+    #scores { max-height: 900px; min-height: 0; overflow-y: auto; padding-right: 6px; }
+
+    /* Approx item heights to make ~10 visible without scroll */
+    #leaderboard .leaderboard-item { min-height: 56px; }
+    #scores .team { min-height: 44px; }
+    #registered-teams-list .registered-team-item { min-height: 38px; }
+
+    /* Custom scrollbar styles (Gold theme) */
+    #leaderboard::-webkit-scrollbar,
+    #registered-teams-list::-webkit-scrollbar,
+    #scores::-webkit-scrollbar { width: 10px; background: #120826; border-radius: 8px; }
+    #leaderboard::-webkit-scrollbar-thumb,
+    #registered-teams-list::-webkit-scrollbar-thumb,
+    #scores::-webkit-scrollbar-thumb {
+      background: linear-gradient(120deg, #FFD700 60%, #a67c00 100%);
+      border-radius: 8px;
+      box-shadow: 0 0 8px #FFD700, 0 0 2px #a67c00;
+    }
+    #leaderboard::-webkit-scrollbar-thumb:hover,
+    #registered-teams-list::-webkit-scrollbar-thumb:hover,
+    #scores::-webkit-scrollbar-thumb:hover { background: linear-gradient(120deg, #fff200 60%, #FFD700 100%); }
+    #leaderboard::-webkit-scrollbar-corner,
+    #registered-teams-list::-webkit-scrollbar-corner,
+    #scores::-webkit-scrollbar-corner { background: #120826; }
+
+    /* Firefox */
+    #leaderboard, #registered-teams-list, #scores { scrollbar-width: thin; scrollbar-color: #FFD700 #120826; }
+  </style>
+</head>
+<body>
+  <div class="main-wrapper fade-in">
+    <div id="leaderboard-container" class="side-container fade-up">
+      <h2>LEADERBOARD</h2>
+      <div id="leaderboard"></div>
+    </div>
+    
+    <div id="registration-container" class="quiz-container fade-up-stagger">
+      <h1>Team Registration</h1>
+      <div class="registration-form">
+        <input type="text" id="team-name-input" placeholder="Team Name">
+        <button onclick="registerTeam()">Add Team</button>
+      </div>
+      <h2>Registered Teams</h2>
+      <div id="registered-teams-list"></div>
+      <button onclick="showIntro()">Start Quiz</button>
+    </div>
+    
+    <div id="intro-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Welcome to the Quiz!</h1>
+      <button onclick="showRules()">Start</button>
+    </div>
+
+
+    <!-- Round 1 Explanation -->
+    <div id="explanation1-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Round 1: Is It In The Room With Us?</h1>
+      <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 1.1em; line-height: 1.8;">
+        Look around you... or maybe don’t. In this round, you’ll be given clever descriptions of objects, items, or concepts that could very well be lurking right here in the room. Some will be obvious, some will be tricky—but all of them are directly connected to our immediate environment or context. Your task is to listen carefully, connect the clues, and identify what is present, what you can see, and what is directly observable in the given context. The answer might even be right under your nose.
+      </div>
+      <br>
+      <button onclick="showRound1Rules()">Continue to Rules</button>
+    </div>
+
+    <div id="rules-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Quiz Rules - Round 1</h1>
+      <ul style="text-align: left; display: inline-block; margin-bottom: 30px; font-size: 1.1em; line-height: 2;">
+          <li>You will have 15 seconds for each question.</li>
+          <li>There are a total of 12 questions.</li>
+          <li>Questions pass clockwise. If a team can’t answer, it moves to the next.</li>
+          <li>The team that answers correctly earns the point, and the following question goes to the next team in order.</li>
+          <li>10 points for correct answer, no negative marking</li>
+      </ul>
+      <br>
+      <button onclick="startQuiz()">ROUND 1, BEGIN</button>
+    </div>
+
+    <!-- Round 2 Explanation -->
+    <div id="explanation2-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Round 2: The Birthday Problem</h1>
+      <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 1.1em; line-height: 1.8;">
+        In this round, you’ll be shown a birthday along with a set of carefully chosen images related to the person who was born on that date. Your task is to connect the dots—analyze the date, interpret the images, and figure out who the person is. Think of it as a puzzle where history, culture, and sharp observation skills come together. The faster you link the clues, the closer you’ll be to the right answer.
+      </div>
+      <br>
+      <button onclick="showRound2Rules()">Continue to Rules</button>
+    </div>
+
+    <!-- Round 2 Rules -->
+    <div id="rules2-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Quiz Rules - Round 2</h1>
+      <ul style="text-align: left; display: inline-block; margin-bottom: 30px; font-size: 1.1em; line-height: 2;">
+        <li>You will have 15 seconds for each question.</li>
+        <li>There are a total of 12 questions.</li>
+        <li>Questions pass counter-clockwise. If a team can’t answer, it moves to the next.</li>
+        <li>The team that answers correctly earns the point, and the following question goes to the next team in order.</li>
+        <li>10 points for correct answer, no negative marking</li>
+    </ul>
+      <br>
+      <button id="start-round2-btn" onclick="startRound2Begin()">ROUND 2, BEGIN</button>
+    </div>
+
+    <!-- Round 3 Explanation -->
+    <div id="explanation3-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Round 3: The Reflex Hypothesis</h1>
+      <div style="text-align: left; max-width: 800px; margin: 0 auto; font-size: 1.1em; line-height: 1.8;">
+        This is the speed round—no time to overthink. A variety of quick, intuitive questions will appear on the screen, and it’s all about reflexes. The faster you respond, the better your chances of scoring. It’s first come, first serve, so trust your instincts and be ready to fire your answers without hesitation.
+      </div>
+      <br>
+      <button onclick="showRound3Rules()">Continue to Rules</button>
+    </div>
+
+    <!-- Round 3 Rules -->
+    <div id="rules3-container" class="quiz-container hidden fade-up-stagger">
+      <h1>Quiz Rules - Round 3</h1>
+      <ul style="text-align: left; display: inline-block; margin-bottom: 30px; font-size: 1.1em; line-height: 2;">
+          <li>You will have 15 seconds for each question.</li>
+          <li>There are a total of 11 questions.</li>
+          <li>Buzzer will be placed for each team.</li>
+          <li>The team that hits the buzzer first gets to answer.</li>
+          <li>10 points for correct answer, -5 for wrong answer</li>
+      </ul>
+      <br>
+      <button id="start-round3-btn" onclick="startRound3Begin()">ROUND 3, BEGIN</button>
+    </div>
+
+    <div id="quiz-container" class="quiz-container hidden fade-up-stagger">
+      <!-- Timer -->
+      <div class="timer-container">
+        <div class="ring" id="ring1"></div>
+        <div class="ring" id="ring2"></div>
+        <div class="ring" id="ring3"></div>
+        <div class="time-text" id="time">15</div>
+      </div>
+
+      <!-- Question -->
+      <div class="question" id="question"></div>
+
+      <!-- Options -->
+      <div class="options" id="options"></div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button onclick="previousQuestion()" id="prev-btn">←</button>
+        <button onclick="showAnswer()">Show Answer</button>
+        <button onclick="toggleRound()" id="round-toggle-btn">Round 1</button>
+        <button onclick="startTimer()">Start Timer</button>
+        <button onclick="nextQuestion()">→</button>
+      </div>
+    </div>
+
+    <div id="end-container" class="quiz-container hidden fade-up-stagger">
+      <h1>QUIZ FINISH!!</h1>
+      
+      <!-- Final Results Container -->
+      <div class="final-results-container" style="display: none;">
+        <!-- Winner Container -->
+        <div class="winner-container podium-container">
+          <div class="podium-caption gold-caption">WINNER</div>
+          <div class="podium-content" id="winner-content">
+            <div class="team-name" id="winner-name">-</div>
+            <div class="team-score" id="winner-score">-</div>
+          </div>
+        </div>
+        
+        <!-- Runner-Up Container -->
+        <div class="runnerup-container podium-container">
+          <div class="podium-caption silver-caption">RUNNER-UP</div>
+          <div class="podium-content" id="runnerup-content">
+            <div class="team-name" id="runnerup-name">-</div>
+            <div class="team-score" id="runnerup-score">-</div>
+          </div>
+        </div>
+        
+        <!-- Third Place Container -->
+        <div class="third-container podium-container">
+          <div class="podium-caption bronze-caption">THIRD</div>
+          <div class="podium-content" id="third-content">
+            <div class="team-name" id="third-name">-</div>
+            <div class="team-score" id="third-score">-</div>
+          </div>
+        </div>
+      </div>
+      
+      <button id="round-transition-btn" style="display:none;">Enter Round 2</button>
+    </div>
+
+    <div id="scores-container" class="side-container">
+        <h2>Scores</h2>
+        <div id="scores"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Smooth scroll for anchor links
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href').slice(1);
+          const target = document.getElementById(targetId);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

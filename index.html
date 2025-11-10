@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainWave Quiz</title>
+    <link rel="stylesheet" href="homepage.css">
+</head>
+<body>
+    <div class="homepage-container">
+        <div class="logos">
+            <img src="images/st_aloysius_logo.png" alt="St. Aloysius Logo" class="main-logo">
+        </div>
+        <div class="logos">
+            <img src="images/resoenance_logo.png" alt="Resoenance Logo" class="sub-logo">
+            <div class="glass-blur-container" id="resoenance-glass">
+              <h1 class="resoenance-text">
+                <span>R</span><span>E</span><span class="nabla-blue">S</span><span class="nabla-blue">O</span><span class="nabla-blue">E</span><span>N</span><span>A</span><span>N</span><span>C</span><span>E</span>
+              </h1>
+            </div>
+        </div>
+        <div class="enter-quiz-container">
+            <a href="#" class="enter-quiz-button" id="enter-quiz-btn">ENTER QUIZ</a>
+        </div>
+    </div>
+
+<div class="glass-blur-container" id="brainwave-glass">
+  <h1 class="animated-text">
+    <span>B</span>
+    <span>r</span>
+    <span>a</span>
+    <span>i</span>
+    <span>n</span>
+    <span>W</span>
+    <span>a</span>
+    <span>v</span>
+    <span>e</span>
+  </h1>
+</div>
+
+<script>
+  document.getElementById('enter-quiz-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.body.classList.add('fade-out');
+    setTimeout(function() {
+      window.location.href = 'ecequiz.html';
+    }, 600); // match fadeOut duration in animations.css
+  });
+
+  // Smooth scroll for anchor links
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href').slice(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+
+  // Variable proximity bulge for resoenance h1
+  (function() {
+    const container = document.querySelector('#resoenance-glass .resoenance-text');
+    if (!container) return;
+    const spans = Array.from(container.querySelectorAll('span'));
+    let rects = [];
+
+    function updateRects() {
+      rects = spans.map(span => span.getBoundingClientRect());
+    }
+    updateRects();
+    window.addEventListener('resize', updateRects);
+
+    container.addEventListener('mousemove', e => {
+      updateRects();
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      spans.forEach((span, i) => {
+        const r = rects[i];
+        const cx = (r.left + r.right) / 2;
+        const cy = (r.top + r.bottom) / 2;
+        const dist = Math.sqrt((mouseX - cx) ** 2 + (mouseY - cy) ** 2);
+        let scale = 1;
+        if (dist < 120) {
+          scale = 1.25 - Math.min(dist, 120) / 320; // closer = bigger
+        }
+        span.style.transform = `scale(${scale})`;
+        span.style.filter = scale > 1.01 ? 'brightness(1.15) drop-shadow(0 2px 8px gold)' : '';
+      });
+    });
+    container.addEventListener('mouseleave', () => {
+      spans.forEach(span => {
+        span.style.transform = '';
+        span.style.filter = '';
+      });
+    });
+  })();
+
+  // Variable proximity bulge for BrainWave h1
+  (function() {
+    const container = document.querySelector('#brainwave-glass .animated-text');
+    if (!container) return;
+    const spans = Array.from(container.querySelectorAll('span'));
+    let rects = [];
+
+    function updateRects() {
+      rects = spans.map(span => span.getBoundingClientRect());
+    }
+    updateRects();
+    window.addEventListener('resize', updateRects);
+
+    container.addEventListener('mousemove', e => {
+      updateRects();
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      spans.forEach((span, i) => {
+        const r = rects[i];
+        const cx = (r.left + r.right) / 2;
+        const cy = (r.top + r.bottom) / 2;
+        const dist = Math.sqrt((mouseX - cx) ** 2 + (mouseY - cy) ** 2);
+        let scale = 1;
+        if (dist < 120) {
+          scale = 1.25 - Math.min(dist, 120) / 320;
+        }
+        span.style.transform = `scale(${scale})`;
+        span.style.filter = scale > 1.01 ? 'brightness(1.15) drop-shadow(0 2px 8px #2196f3)' : '';
+      });
+    });
+    container.addEventListener('mouseleave', () => {
+      spans.forEach(span => {
+        span.style.transform = '';
+        span.style.filter = '';
+      });
+    });
+  })();
+</script>
+
+<canvas id="flying-words-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;"></canvas>
+<script src="background-words.js"></script>
+</body>
+</html>
